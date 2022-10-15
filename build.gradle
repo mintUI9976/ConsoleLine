@@ -9,6 +9,7 @@ version '0.0.1'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -17,6 +18,8 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:23.0.0'
     // https://mvnrepository.com/artifact/org.jline/jline
     implementation group: 'org.jline', name: 'jline', version: '3.21.0'
+    implementation group: 'com.github.vlsi.compactmap', name: 'compactmap', version: '2.0'
+    implementation 'com.github.mintUI9976:RedEugene:v0.3.2'
 }
 
 test {
