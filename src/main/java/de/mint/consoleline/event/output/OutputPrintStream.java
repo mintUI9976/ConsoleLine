@@ -9,20 +9,21 @@ import java.nio.charset.Charset;
 
 public record OutputPrintStream(Charset charset) {
 
-    public void stream(final LineReader lineReader, final boolean log, final LogWriter logWriter) {
+    // A method that is used to override the standard output stream.
+    public void stream(final boolean log, final LineReader lineReader, final LogWriter logWriter) {
         System.setOut(
-                new PrintStream(System.out, true, this.charset) {
+                new PrintStream(System.out, false, this.charset) {
                     @Override
-                    public void println(String message) {
+                    public void println(final String message) {
                         assert message != null;
-                        message = message + "\n";
-                        lineReader.printAbove(message);
+                        final String temp = message + "\n";
+                        lineReader.printAbove(temp);
+                        lineReader.getTerminal().writer().flush();
                         if (log) {
                             if (logWriter != null) {
                                 logWriter.insert(JlineUtils.cleanAnsiString(message));
                             }
                         }
-                        /*lineReader.getTerminal().writer().flush();*/
                     }
                 });
     }

@@ -1,9 +1,11 @@
 package de.mint.consoleline.commands.handler;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class CommandArguments {
-
+public interface CommandArguments {
   /** This function is called when the user types a command. */
-  public void onCommand(final List<String> arguments) {}
+  @NotNull
+  String commandName();
+
+  default void onCommand(final String[] arguments) {}
 }
