@@ -55,11 +55,17 @@
 - builder system
     - terminal can be created by builder principle
 
+- string color system
+    - native
+      Jline3 [AttributedStringBuilder](https://github.com/jline/jline3/blob/master/terminal/src/main/java/org/jline/utils/AttributedStringBuilder.java)
+      , [AttributedStyle](https://github.com/jline/jline3/blob/master/terminal/src/main/java/org/jline/utils/AttributedStyle.java)
+      integration
+
 <hr>
 
 ### Utilization:
 
-- CreateTerminal
+#### CreateTerminal - Example:
 
 ````java
 
@@ -81,16 +87,36 @@ public class Test {
     private static String prompt() {
         return new AttributedStringBuilder()
                 .style(AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN))
-                .append("@test")
+                .append("@prompt")
                 .style(AttributedStyle.DEFAULT)
                 .append("> ")
                 .toAnsi();
     }
 }
+````
+
+#### CreateTerminal - LogSystem:
+
+````java
+
+public static void main(final String[]args){
+final JlineExecutor jlineExecutor=
+        JlineBuilder.getJlineBuilder()
+        .setThreadSize(3)
+        .setPrompt("@prompt> ")
+        .setCommandArgumentNotAvailable("The arguments are not available")
+        .setCommandNotAvailable("The command is not available")
+        .setPrefix("de.mint.consoleline")
+        .setLog(true)
+        .setLogFilename("Sample.txt")
+        .setLogPath("sample/")
+        .build();
+        jlineExecutor.buildTerminal();
+        }
 
 ````
 
-- CreateCommand
+#### CreateCommand - Example:
 
 ````java
 
