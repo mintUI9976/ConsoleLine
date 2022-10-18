@@ -1,7 +1,7 @@
 package de.mint.consoleline.service;
 
-import de.mint.consoleline.commands.handler.CommandArguments;
-import de.mint.consoleline.commands.handler.CommandHandler;
+import de.mint.consoleline.command.CommandArguments;
+import de.mint.consoleline.command.CommandHandler;
 import de.mint.consoleline.event.error.ErrorPrintStream;
 import de.mint.consoleline.event.input.InputRunnable;
 import de.mint.consoleline.event.output.OutputPrintStream;
@@ -48,6 +48,8 @@ public class JlineExecutor {
   private String commandNotAvailable;
 
   private String prompt;
+
+  private String prefix = null;
 
   private boolean withCommandSystem = true;
   private boolean log = false;
@@ -300,6 +302,19 @@ public class JlineExecutor {
     this.prompt = prompt;
   }
 
+  public String getPrefix() {
+    return this.prefix;
+  }
+
+  /**
+   * This function sets the prefix variable to the value of the prefix parameter.
+   *
+   * @param prefix The prefix to use for the load class names.
+   */
+  void setPrefix(final String prefix) {
+    this.prefix = prefix;
+  }
+
   public int getThreadSize() {
     return this.threadSize;
   }
@@ -396,30 +411,30 @@ public class JlineExecutor {
   }
 
   /**
-   * > This function creates a new CommandHandler object and assigns it to the commandHandler
-   * variable
+   * It uses reflection to find all classes that extend CommandArguments, and then registers them
+   * with the command handler
    */
   private void createCommandHandler() {
     this.commandHandler = new CommandHandler();
-
-    final Reflections reflections = new Reflections("de.mint.consoleline");
-    final Set<Class<? extends CommandArguments>> classes =
-        reflections.getSubTypesOf(CommandArguments.class);
-    for (final Class<? extends CommandArguments> commandArgumentReferences : classes) {
-      try {
-        final Method method = commandArgumentReferences.getMethod("commandName");
-        final Object value = method.invoke(commandArgumentReferences.newInstance());
-        System.out.println(value);
-        this.commandHandler.registerCommand(
-            String.valueOf(value), commandArgumentReferences.newInstance());
-      } catch (final NoSuchMethodException
-          | InvocationTargetException
-          | IllegalAccessException
-          | InstantiationException e) {
-        throw new RuntimeException(e);
-      }
+    if (this.prefix != null) {
+      final Reflections reflections = new Reflections(this.prefix);
+      final Set<Class<? extends CommandArguments>> classes =
+          reflections.getSubTypesOf(CommandArguments.class);
+      classes.forEach(
+          commandArgumentReferences -> {
+            try {
+              final Method method = commandArgumentReferences.getMethod("commandName");
+              final Object value = method.invoke(commandArgumentReferences.newInstance());
+              this.commandHandler.registerCommand(
+                  String.valueOf(value), commandArgumentReferences.newInstance());
+            } catch (final NoSuchMethodException
+                | InvocationTargetException
+                | IllegalAccessException
+                | InstantiationException e) {
+              throw new RuntimeException(e);
+            }
+          });
     }
-    System.out.println(this.commandHandler.getCommands().values());
   }
 
   /**
