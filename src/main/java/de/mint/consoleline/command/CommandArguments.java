@@ -1,4 +1,4 @@
-package de.mint.consoleline.commands.handler;
+package de.mint.consoleline.command;
 
 import org.jetbrains.annotations.NotNull;
 
