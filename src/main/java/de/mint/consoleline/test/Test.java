@@ -12,6 +12,9 @@ public class Test {
         JlineBuilder.getJlineBuilder()
             .setThreadSize(3)
             .setPrompt(Test.prompt())
+            .setCommandArgumentNotAvailable("The arguments are not available")
+            .setCommandNotAvailable("The command is not available")
+            .setPrefix("de.mint.consoleline")
             .setLog(true)
             .build();
     jlineExecutor.buildTerminal();
