@@ -111,6 +111,11 @@ public class JlineBuilder {
     return this;
   }
 
+  public JlineBuilder setPrefix(final String prefix) {
+    this.jlineConfiguration.setPrefix(prefix);
+    return this;
+  }
+
   public JlineExecutor build() {
     return this.jlineConfiguration;
   }
