@@ -16,6 +16,8 @@ public class Test {
             .setCommandNotAvailable("The command is not available")
             .setPrefix("de.mint.consoleline")
             .setLog(true)
+            .setLogFilename("Sample.txt")
+            .setLogPath("sample/")
             .build();
     jlineExecutor.buildTerminal();
   }
