@@ -5,7 +5,11 @@ plugins {
 }
 
 group 'de.mint.consoleline'
-version '1.0.4'
+version '1.0.5'
+
+tasks.withType(JavaCompile) {
+    options.release = 17
+}
 
 repositories {
     mavenCentral()
