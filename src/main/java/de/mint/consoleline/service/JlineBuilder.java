@@ -6,6 +6,7 @@ import org.jline.reader.Highlighter;
 import org.jline.reader.History;
 
 import java.nio.charset.Charset;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class JlineBuilder {
 
@@ -103,6 +104,11 @@ public class JlineBuilder {
 
   public JlineBuilder setThreadSize(final int setThreadSize) {
     this.jlineConfiguration.setThreadSize(setThreadSize);
+    return this;
+  }
+
+  public JlineBuilder setScheduleExecutorService(final ScheduledExecutorService scheduledExecutorService){
+    this.jlineConfiguration.setScheduledExecutorService(scheduledExecutorService);
     return this;
   }
 

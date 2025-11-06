@@ -341,6 +341,8 @@ public class JlineExecutor {
     this.period = period;
   }
 
+  void setScheduledExecutorService(final ScheduledExecutorService scheduledExecutorService) { this.scheduledExecutorService = scheduledExecutorService; }
+
   /**
    * It creates a terminal, a line reader, a log, a command handler, output streams, and an input
    * stream
@@ -458,9 +460,11 @@ public class JlineExecutor {
 
   /** Create a new input runnable and schedule it to run every millisecond. */
   private void createInputRunnable() {
-    this.scheduledExecutorService = Executors.newScheduledThreadPool(this.threadSize);
+    if (this.scheduledExecutorService == null) {
+      this.scheduledExecutorService = Executors.newScheduledThreadPool(this.threadSize);
+    }
     this.scheduledExecutorService.scheduleAtFixedRate(
-        this.inputRunnable, 0, this.period, TimeUnit.MILLISECONDS);
+            this.inputRunnable, 0, this.period, TimeUnit.MILLISECONDS);
   }
 
   /**
