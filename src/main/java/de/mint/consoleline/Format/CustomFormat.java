@@ -14,10 +14,7 @@ public class CustomFormat {
   private String message;
 
   public CustomFormat(
-      String stringFormat,
-      String previewColor,
-      SimpleDateFormat simpleDateFormat,
-      String message) {
+      String stringFormat, String previewColor, SimpleDateFormat simpleDateFormat, String message) {
     this.stringFormat = stringFormat;
     this.previewColor = previewColor;
     this.simpleDateFormat = simpleDateFormat;
@@ -33,23 +30,24 @@ public class CustomFormat {
         time,
         CustomColors.YELLOW,
         "WARN",
+        this.previewColor,
         message,
         CustomColors.RESET);
   }
 
-    public String getStringFormat() {
-        return stringFormat;
-    }
+  public String getStringFormat() {
+    return stringFormat;
+  }
 
-    public String getPreviewColor() {
-        return previewColor;
-    }
+  public String getPreviewColor() {
+    return previewColor;
+  }
 
-    public SimpleDateFormat getSimpleDateFormat() {
-        return simpleDateFormat;
-    }
+  public SimpleDateFormat getSimpleDateFormat() {
+    return simpleDateFormat;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 }
