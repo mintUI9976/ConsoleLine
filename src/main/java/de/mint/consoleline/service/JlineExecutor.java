@@ -49,6 +49,9 @@ public class JlineExecutor {
 
   private String prompt;
 
+  private String[] commandArgumentNotAvailableFormat;
+  private String[] commandNotAvailableFormat;
+
   private String prefix = null;
 
   private boolean withCommandSystem = true;
@@ -186,7 +189,23 @@ public class JlineExecutor {
     return this.jna;
   }
 
-  /**
+    public String[] getCommandArgumentNotAvailableFormat() {
+        return this.commandArgumentNotAvailableFormat;
+    }
+
+    void setCommandArgumentNotAvailableFormat(String[] commandArgumentNotAvailableFormat) {
+        this.commandArgumentNotAvailableFormat = commandArgumentNotAvailableFormat;
+    }
+
+    public String[] getCommandNotAvailableFormat() {
+        return commandNotAvailableFormat;
+    }
+
+    public void setCommandNotAvailableFormat(String[] commandNotAvailableFormat) {
+        this.commandNotAvailableFormat = commandNotAvailableFormat;
+    }
+
+    /**
    * This function sets the value of the jna variable to the value of the jna parameter.
    *
    * @param jna If true, the JNA library will be used to access the native library. If false, the
@@ -453,7 +472,7 @@ public class JlineExecutor {
               this.scheduledExecutorService,
               this.prompt,
               this.commandNotAvailable,
-              this.commandArgumentNotAvailable);
+              this.commandArgumentNotAvailable, this.commandNotAvailableFormat, this.commandArgumentNotAvailableFormat);
       this.createInputRunnable();
     }
   }

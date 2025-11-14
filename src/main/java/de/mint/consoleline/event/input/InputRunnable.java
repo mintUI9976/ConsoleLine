@@ -12,7 +12,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
-public record InputRunnable(LineReader lineReader, LogWriter logWriter, CommandHandler commandHandler, ScheduledExecutorService scheduledExecutorService, String prompt, String commandNotAvailable, String commandArgumentNotAvailable) implements Runnable {
+
+public record InputRunnable(
+    LineReader lineReader,
+    LogWriter logWriter,
+    CommandHandler commandHandler,
+    ScheduledExecutorService scheduledExecutorService,
+    String prompt,
+    String commandNotAvailable,
+    String commandArgumentNotAvailable,
+    String[] commandNotAvailableFormat,
+    String[] commandArgumentNotAvailableFormat)
+    implements Runnable {
 
   @Override
   public void run() {
@@ -25,7 +36,7 @@ public record InputRunnable(LineReader lineReader, LogWriter logWriter, CommandH
         final String[] strings = message.split(" ");
         final String command = strings[0];
         if (!command.isEmpty()) {
-          if (this.commandHandler.getCommands().containsKey(command)){
+          if (this.commandHandler.getCommands().containsKey(command)) {
             final String[] stringsToArray = Arrays.copyOfRange(strings, 1, strings.length);
             if (stringsToArray.length > 0) {
               try {
@@ -33,27 +44,41 @@ public record InputRunnable(LineReader lineReader, LogWriter logWriter, CommandH
                 final Method method = obj.getMethod("onCommand", String[].class);
                 method.invoke(obj.newInstance(), (Object) stringsToArray);
               } catch (final InvocationTargetException
-                             | InstantiationException
-                             | NoSuchMethodException
-                             | IllegalAccessException exception) {
+                  | InstantiationException
+                  | NoSuchMethodException
+                  | IllegalAccessException exception) {
                 throw new ConsoleLineException(
-                        "instance creation error - parameter or object error", exception);
+                    "instance creation error - parameter or object error", exception);
               }
             } else {
-              if (this.commandArgumentNotAvailable() != null) {
-                System.out.println(this.commandArgumentNotAvailable());
+
+              if (this.commandArgumentNotAvailableFormat() != null) {
+                String[] formatData = this.commandArgumentNotAvailableFormat();
+                Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
+                System.out.println(String.format(formatData[0], args));
+              } else {
+                if (this.commandArgumentNotAvailable() != null) {
+                  System.out.println(this.commandArgumentNotAvailable());
+                }
               }
             }
           } else {
-            if (this.commandNotAvailable() != null){
-              System.out.println(this.commandNotAvailable());
+
+            if (this.commandNotAvailableFormat() != null) {
+              String[] formatData = this.commandNotAvailableFormat();
+              Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
+              System.out.println(String.format(formatData[0], args));
+            } else {
+              if (this.commandNotAvailable() != null) {
+                System.out.println(this.commandNotAvailable());
+              }
             }
           }
-          }
         }
-      } catch (final UserInterruptException ignored) {
+      }
+    } catch (final UserInterruptException ignored) {
       Runtime.getRuntime().exit(0);
     } catch (final EndOfFileException ignored) {
     }
-    }
   }
+}
