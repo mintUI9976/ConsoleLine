@@ -22,7 +22,6 @@ public class CustomFormat {
   }
 
   public String format() {
-    this.simpleDateFormat = new SimpleDateFormat();
     final String time = simpleDateFormat.format(new Date());
     return String.format(
         this.stringFormat,
