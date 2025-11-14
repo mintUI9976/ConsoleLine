@@ -53,9 +53,9 @@ public record InputRunnable(
             } else {
 
               if (this.commandArgumentNotAvailableFormat() != null) {
-                String[] formatData = this.commandArgumentNotAvailableFormat();
-                Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
-                System.out.println(String.format(formatData[0], args));
+                final String[] formatData = this.commandArgumentNotAvailableFormat();
+                final Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
+                System.out.printf((formatData[0]) + "%n", args);
               } else {
                 if (this.commandArgumentNotAvailable() != null) {
                   System.out.println(this.commandArgumentNotAvailable());
@@ -65,9 +65,9 @@ public record InputRunnable(
           } else {
 
             if (this.commandNotAvailableFormat() != null) {
-              String[] formatData = this.commandNotAvailableFormat();
-              Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
-              System.out.println(String.format(formatData[0], args));
+              final String[] formatData = this.commandNotAvailableFormat();
+              final Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
+              System.out.printf((formatData[0]) + "%n", args);
             } else {
               if (this.commandNotAvailable() != null) {
                 System.out.println(this.commandNotAvailable());

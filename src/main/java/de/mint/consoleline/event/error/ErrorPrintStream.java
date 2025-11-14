@@ -2,7 +2,6 @@ package de.mint.consoleline.event.error;
 
 import de.mint.consoleline.service.JlineUtils;
 import de.mint.consoleline.write.LogWriter;
-import org.jetbrains.annotations.Nullable;
 import org.jline.reader.LineReader;
 
 import java.io.PrintStream;
@@ -12,20 +11,52 @@ public record ErrorPrintStream(Charset charset) {
 
   public void stream(final boolean log, final LineReader lineReader, final LogWriter logWriter) {
 
-    System.setErr(
-        new PrintStream(System.err, false, this.charset) {
-          @Override
-          public void println(@Nullable final String message) {
-            assert message != null;
-            final String temp = message + "\n";
-            lineReader.printAbove(temp);
+    PrintStream jlineErr =
+        new PrintStream(System.err, false, charset) {
+
+          private void jlinePrint(String msg) {
+            lineReader.printAbove(msg);
             lineReader.getTerminal().writer().flush();
-            if (log) {
-              if (logWriter != null) {
-                logWriter.insert(JlineUtils.cleanAnsiString(message));
-              }
+
+            if (log && logWriter != null) {
+              logWriter.insert(JlineUtils.cleanAnsiString(msg));
             }
           }
-        });
+
+          @Override
+          public void println(String x) {
+            jlinePrint(x);
+          }
+
+          @Override
+          public void println() {
+            jlinePrint("");
+          }
+
+          @Override
+          public void print(String s) {
+            jlinePrint(s);
+          }
+
+          @Override
+          public PrintStream printf(String format, Object... args) {
+            jlinePrint(String.format(format, args));
+            return this;
+          }
+
+          @Override
+          public PrintStream format(String format, Object... args) {
+            jlinePrint(String.format(format, args));
+            return this;
+          }
+
+          @Override
+          public void write(byte[] buf, int off, int len) {
+            String s = new String(buf, off, len, charset);
+            jlinePrint(s);
+          }
+        };
+
+    System.setErr(jlineErr);
   }
 }
