@@ -7,7 +7,7 @@ public class CustomFormat {
 
   private String stringFormat;
 
-  private CustomColors previewColor;
+  private String previewColor;
 
   private SimpleDateFormat simpleDateFormat;
 
@@ -15,7 +15,7 @@ public class CustomFormat {
 
   public CustomFormat(
       String stringFormat,
-      CustomColors previewColor,
+      String previewColor,
       SimpleDateFormat simpleDateFormat,
       String message) {
     this.stringFormat = stringFormat;
@@ -41,7 +41,7 @@ public class CustomFormat {
         return stringFormat;
     }
 
-    public CustomColors getPreviewColor() {
+    public String getPreviewColor() {
         return previewColor;
     }
 
