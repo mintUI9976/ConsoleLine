@@ -112,6 +112,22 @@ public class JlineBuilder {
     return this;
   }
 
+
+    public JlineBuilder setCommandArgumentNotAvailableFormat(String[] commandArgumentNotAvailableFormat) {
+        this.jlineConfiguration.setCommandArgumentNotAvailableFormat(commandArgumentNotAvailableFormat);
+        return this;
+    }
+
+    public JlineBuilder setCommandNotAvailableFormat(String[] commandNotAvailableFormat) {
+        this.jlineConfiguration.setCommandNotAvailableFormat(commandNotAvailableFormat);
+        return this;
+    }
+
+    public JlineBuilder setCommand(final ScheduledExecutorService scheduledExecutorService){
+        this.jlineConfiguration.setScheduledExecutorService(scheduledExecutorService);
+        return this;
+    }
+
   public JlineBuilder setPeriod(final long period) {
     this.jlineConfiguration.setPeriod(period);
     return this;
