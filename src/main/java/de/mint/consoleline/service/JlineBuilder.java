@@ -1,5 +1,6 @@
 package de.mint.consoleline.service;
 
+import de.mint.consoleline.Format.CustomFormat;
 import org.jetbrains.annotations.NotNull;
 import org.jline.reader.Completer;
 import org.jline.reader.Highlighter;
@@ -113,12 +114,12 @@ public class JlineBuilder {
   }
 
 
-    public JlineBuilder setCommandArgumentNotAvailableFormat(String[] commandArgumentNotAvailableFormat) {
+    public JlineBuilder setCommandArgumentNotAvailableFormat(CustomFormat commandArgumentNotAvailableFormat) {
         this.jlineConfiguration.setCommandArgumentNotAvailableFormat(commandArgumentNotAvailableFormat);
         return this;
     }
 
-    public JlineBuilder setCommandNotAvailableFormat(String[] commandNotAvailableFormat) {
+    public JlineBuilder setCommandNotAvailableFormat(CustomFormat commandNotAvailableFormat) {
         this.jlineConfiguration.setCommandNotAvailableFormat(commandNotAvailableFormat);
         return this;
     }

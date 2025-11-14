@@ -1,5 +1,6 @@
 package de.mint.consoleline.service;
 
+import de.mint.consoleline.Format.CustomFormat;
 import de.mint.consoleline.command.CommandArguments;
 import de.mint.consoleline.command.CommandHandler;
 import de.mint.consoleline.event.error.ErrorPrintStream;
@@ -49,8 +50,8 @@ public class JlineExecutor {
 
   private String prompt;
 
-  private String[] commandArgumentNotAvailableFormat;
-  private String[] commandNotAvailableFormat;
+  private CustomFormat commandArgumentNotAvailableFormat;
+  private CustomFormat commandNotAvailableFormat;
 
   private String prefix = null;
 
@@ -189,19 +190,19 @@ public class JlineExecutor {
     return this.jna;
   }
 
-    public String[] getCommandArgumentNotAvailableFormat() {
-        return this.commandArgumentNotAvailableFormat;
+    public CustomFormat getCommandArgumentNotAvailableFormat() {
+        return commandArgumentNotAvailableFormat;
     }
 
-    void setCommandArgumentNotAvailableFormat(String[] commandArgumentNotAvailableFormat) {
-        this.commandArgumentNotAvailableFormat = commandArgumentNotAvailableFormat;
-    }
-
-    public String[] getCommandNotAvailableFormat() {
+    public CustomFormat getCommandNotAvailableFormat() {
         return commandNotAvailableFormat;
     }
 
-    public void setCommandNotAvailableFormat(String[] commandNotAvailableFormat) {
+    void setCommandArgumentNotAvailableFormat(CustomFormat commandArgumentNotAvailableFormat) {
+        this.commandArgumentNotAvailableFormat = commandArgumentNotAvailableFormat;
+    }
+
+    void setCommandNotAvailableFormat(CustomFormat commandNotAvailableFormat) {
         this.commandNotAvailableFormat = commandNotAvailableFormat;
     }
 

@@ -1,5 +1,6 @@
 package de.mint.consoleline.event.input;
 
+import de.mint.consoleline.Format.CustomFormat;
 import de.mint.consoleline.command.CommandHandler;
 import de.mint.consoleline.exception.ConsoleLineException;
 import de.mint.consoleline.service.JlineUtils;
@@ -21,8 +22,8 @@ public record InputRunnable(
     String prompt,
     String commandNotAvailable,
     String commandArgumentNotAvailable,
-    String[] commandNotAvailableFormat,
-    String[] commandArgumentNotAvailableFormat)
+    CustomFormat commandNotAvailableFormat,
+    CustomFormat commandArgumentNotAvailableFormat)
     implements Runnable {
 
   @Override
@@ -53,9 +54,7 @@ public record InputRunnable(
             } else {
 
               if (this.commandArgumentNotAvailableFormat() != null) {
-                final String[] formatData = this.commandArgumentNotAvailableFormat();
-                final Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
-                System.out.printf((formatData[0]) + "%n", args);
+                System.out.println(commandArgumentNotAvailableFormat.format());
               } else {
                 if (this.commandArgumentNotAvailable() != null) {
                   System.out.println(this.commandArgumentNotAvailable());
@@ -65,9 +64,7 @@ public record InputRunnable(
           } else {
 
             if (this.commandNotAvailableFormat() != null) {
-              final String[] formatData = this.commandNotAvailableFormat();
-              final Object[] args = Arrays.copyOfRange(formatData, 1, formatData.length);
-              System.out.printf((formatData[0]) + "%n", args);
+                System.out.println(commandNotAvailableFormat.format());
             } else {
               if (this.commandNotAvailable() != null) {
                 System.out.println(this.commandNotAvailable());
