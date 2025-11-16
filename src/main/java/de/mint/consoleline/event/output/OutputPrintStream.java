@@ -15,13 +15,8 @@ public record OutputPrintStream(Charset charset) {
         new PrintStream(System.out, false, charset) {
 
           private void jlinePrint(String msg) {
-
-              synchronized (lineReader.getTerminal()) {
-                  lineReader.getTerminal().writer().println(msg);
-                  lineReader.getTerminal().writer().flush();
-                  lineReader.callWidget(LineReader.REDRAW_LINE);
-                  lineReader.callWidget(LineReader.REDISPLAY);
-              }
+            lineReader.printAbove(msg);
+            lineReader.getTerminal().writer().flush();
 
             if (log && logWriter != null) {
               logWriter.insert(JlineUtils.cleanAnsiString(msg));
