@@ -23,6 +23,7 @@ dependencies {
     implementation group: 'org.jline', name: 'jline', version: '3.30.6'
     implementation group: 'com.github.vlsi.compactmap', name: 'compactmap', version: '2.0.1'
     implementation 'org.reflections:reflections:0.10.2'
+
 }
 
 test {
